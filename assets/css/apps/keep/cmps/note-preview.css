@@ -1,0 +1,29 @@
+.note-preview {
+    width: 200px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.note-preview:hover {
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.todo-img-title {
+    position: relative;
+    top: 5%;
+}
+
+.note-text {
+    position: relative;
+    top: 20%;
+}
+
+.preview-utils-container {
+    width: 100%;
+    position: relative;
+    bottom: 2%;
+}
