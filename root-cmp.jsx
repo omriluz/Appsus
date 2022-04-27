@@ -18,9 +18,9 @@ export function App() {
             <main>
                 <AppHeader />
                 <Switch>
-                    {/* <Route path="/keep" component={KeepApp} /> */}
                     <Route path="/mail/:mailId" component={MailDetails} />
                     <Route path="/mail" component={MailApp} />
+                    {/* <Route path="/keep" component={KeepApp} /> */}
                     {/* <Route path="/book" component={BookApp} /> */}
                     {/* <Route path="/about" component={About} /> */}
                     {/* <Route path="/" component={HomePage} /> */}
