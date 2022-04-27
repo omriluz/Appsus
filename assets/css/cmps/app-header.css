@@ -1,0 +1,17 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.353);
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.app-header nav>*:not(:last-child) {
+    margin-inline-end: 20px;
+}
+
+.active {
+    color: bisque;
+}
