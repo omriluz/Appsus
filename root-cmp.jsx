@@ -6,6 +6,8 @@
 import { AppHeader } from './cmps/app-header.jsx'
 // import { KeepApp } from './apps/keep/pages/note-app.jsx'
 import { MailApp } from './apps/mail/pages/mail-app.jsx'
+import { MailDetails } from './apps/mail/pages/mail-details.jsx'
+
 const Router = ReactRouterDOM.HashRouter
 const { Route, Switch } = ReactRouterDOM
 
@@ -17,6 +19,7 @@ export function App() {
                 <AppHeader />
                 <Switch>
                     {/* <Route path="/keep" component={KeepApp} /> */}
+                    <Route path="/mail/:mailId" component={MailDetails} />
                     <Route path="/mail" component={MailApp} />
                     {/* <Route path="/book" component={BookApp} /> */}
                     {/* <Route path="/about" component={About} /> */}

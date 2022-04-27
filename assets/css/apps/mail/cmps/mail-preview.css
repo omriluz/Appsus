@@ -1,0 +1,33 @@
+.mail-preview {
+    position: relative;
+    width: 100%;
+    height: 1.7rem;
+    border-bottom: solid black 1px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.mail-preview .from-name {
+    position: absolute;
+    left: 6rem;
+    top: 0.55rem;
+}
+
+.mail-preview .subject {
+    position: absolute;
+    right: 24rem;
+    top: 0.55rem;
+}
+
+.mail-preview .body {
+    position: absolute;
+    right: 9.5rem;
+    top: 0.55rem;
+    color: rgb(162, 167, 170);
+}
+
+.mail-preview .sent-at {
+    position: absolute;
+    right: 1rem;
+    top: 0.55rem;
+}
