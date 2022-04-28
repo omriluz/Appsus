@@ -4,7 +4,8 @@ import { storageService } from '../../../services/storage.service.js';
 export const noteService = {
     query,
     saveNote,
-    remove
+    remove,
+    toggleTodo
 }
 
 const KEY = 'notesDB'
@@ -25,6 +26,7 @@ function _createNotes() {
 
     const notes = []
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
+    notes.push(_createNote('note-video', { url: 'https://www.youtube.com/embed/tgbNymZ7vqY' }))
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
@@ -34,15 +36,15 @@ function _createNotes() {
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
     notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
     notes.push(_createNote('note-img', {
-        url: "http://some-img/me",
+        url: "https://picsum.photos/200",
         title: "Bobi and Me"
     }))
     notes.push(_createNote('note-todos', {
         title: 'my todo list',
         label: "Get my stuff together",
         todos: [
-            { txt: "Driving liscence", doneAt: null },
-            { txt: "Coding power", doneAt: 187111111 }
+            { txt: "Finish Appsus", doneAt: null },
+            { txt: "Go Shower", doneAt: 187111111 }
         ]
     }))
     return notes
@@ -55,15 +57,34 @@ function remove(noteId) {
     return Promise.resolve()
 }
 
+function toggleTodo(todoIdx, noteId) {
+    let notes = _loadFromStorage()
+        // const noteIdx = notes.findIndex(note => note.id === noteId)
+        // notes[noteIdx].info.todos[todoIdx].doneAt = notes[noteIdx].info.todos[todoIdx].doneAt ? Date.now() : null;
+    notes.forEach((note) => {
+        if (note.id === noteId) {
+            note.info.todos[todoIdx].doneAt = note.info.todos[todoIdx].doneAt ?
+                null : +new Date()
+        }
+    })
+    _saveToStorage(notes)
+    return Promise.resolve()
+}
+
 
 function saveNote(note) {
-    console.log('note in save notes', note);
-    // if (note.id) return _update(note)
+    if (note.id) return _update(note)
     return _addNote(note)
 }
 
+function _update(noteToUpdate) {
+    let notes = _loadFromStorage()
+    notes = notes.map(note => note.id === noteToUpdate.id ? noteToUpdate : note)
+    _saveToStorage(notes)
+    return Promise.resolve()
+}
+
 function _addNote(noteToAdd) {
-    console.log('note in addnotes', noteToAdd);
     let notes = _loadFromStorage()
     const note = _createNote(noteToAdd.type, noteToAdd.info)
     notes = [note, ...notes]

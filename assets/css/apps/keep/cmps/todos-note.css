@@ -1,0 +1,8 @@
+.todo-item {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.todo-list {
+    text-align: left
+}
