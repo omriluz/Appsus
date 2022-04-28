@@ -3,3 +3,21 @@
     height: 20rem;
     margin: auto;
 }
+
+
+@media screen and (max-width:1090px) {
+    .mail-list {
+        width: 40rem;
+        margin-left: 260px;
+
+    }
+
+}
+
+@media screen and (max-width:960px) {
+    .mail-list {
+        margin-left: 166px;
+
+    }
+
+}

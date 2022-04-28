@@ -5,7 +5,7 @@ export class MailFilter extends React.Component {
 
     state = {
         filterBy: {
-            searchMail: '',
+            txt: '',
             isRead: ''
         }
     }
@@ -33,11 +33,11 @@ export class MailFilter extends React.Component {
 
 
     render() {
-        const { searchMail, isRead } = this.state.filterBy
+        const { txt, isRead } = this.state.filterBy
         return <section className="mail-filter">
             <form onSubmit={this.onFilter} >
-                <input type="text" placeholder="Search mail" name="searchMail"
-                    value={searchMail} onChange={this.handleChange} />
+                <input type="text" placeholder="Search mail" name="txt"
+                    value={txt} onChange={this.handleChange} />
                 <select value={isRead} name="isRead" onChange={this.handleChange}>
                     <option value="all">All</option>
                     <option value="true">Read</option>

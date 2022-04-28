@@ -7,7 +7,8 @@ export const mailService = {
     removeMail,
     isRead,
     composeMail,
-    isNotRead
+    isNotRead,
+    isStared
 }
 const KEY = 'mailsDB'
 
@@ -32,14 +33,14 @@ function query(filterBy) {
         _saveToStorage(mails)
     }
     if (filterBy) {
-        let { searchMail, isRead } = filterBy
+        let { txt, isRead } = filterBy
+        if (!isRead) isRead = 'all'
         if (isRead === 'false') isRead = false
         else if (isRead === 'true') isRead = true
-        console.log('isRead', isRead)
-
         mails = mails.filter(mail => {
-            if (isRead === 'all') return (mail.from.includes(searchMail))
-            return (mail.from.includes(searchMail) && mail.isRead === isRead)
+            if (isRead === 'all') return (mail.from.toLowerCase().includes(txt.toLowerCase()))
+
+            return (mail.from.toLowerCase().includes(txt.toLowerCase()) && mail.isRead === isRead)
         })
     }
 
@@ -74,6 +75,15 @@ function isRead(mailId) {
     _saveToStorage(mails)
     return Promise.resolve(mails)
 }
+
+function isStared(mailId) {
+    let mails = _loadFromStorage()
+    let mailIndex = mails.findIndex(mail => mailId === mail.id)
+    mails[mailIndex].isStared = !mails[mailIndex].isStared
+    _saveToStorage(mails)
+    return Promise.resolve(mails)
+}
+
 function isNotRead(mailId) {
     let mails = _loadFromStorage()
     let mailIndex = mails.findIndex(mail => mailId === mail.id)
@@ -104,6 +114,7 @@ function _createMail(from, subject, body, to) {
         from,
         subject,
         body,
+        isStared: false,
         isRead: false,
         isRemoved: false,
         sentAt: new Date().toLocaleTimeString(),

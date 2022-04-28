@@ -1,6 +1,6 @@
 import { mailService } from "../service/mail.service.js";
-import { MailSide } from '../cmps/mail-side.jsx'
-import { MailApp } from "./mail-app.jsx";
+import { MailFolderList } from '../cmps/mail-folder-list.jsx'
+
 
 
 
@@ -47,7 +47,7 @@ export class MailDetails extends React.Component {
         const { mail } = this.state
         if (!mail) return <div>Loading..</div>
         return <section className="mail-details" >
-            <MailSide />
+            <MailFolderList />
             <div className="mail-btn">
                 <button onClick={this.onGoBack}>Go back</button>
                 <button onClick={this.onReadMail} >Not read</button>

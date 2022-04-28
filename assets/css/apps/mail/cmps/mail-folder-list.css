@@ -1,0 +1,37 @@
+.mail-folder-list {
+    position: absolute;
+    top: 183px;
+    left: 60px;
+    gap: 30px;
+}
+
+
+.mail-folder-list .add-mail button {
+    border-radius: 10px;
+    border: solid lightgray 1.3px;
+    background-color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    color: rgb(57, 56, 56);
+
+}
+
+.mail-folder-list img {
+    height: 100%;
+    width: 37%;
+    object-fit: cover;
+}
+
+
+.mail-folder-list .add-mail {
+    height: 55px;
+    width: 115px;
+
+}
+
+
+.mail-folders {
+    gap: 15px;
+    color: rgb(57, 56, 56);
+    cursor: pointer;
+}

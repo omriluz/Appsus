@@ -36,8 +36,10 @@ export class MailCompose extends React.Component {
                         value={to} onChange={this.handleChange} />
                     <input placeholder="Subject" className="subject" type="text" name="subject"
                         value={subject} onChange={this.handleChange} />
-                    <input className="msg" type="text" name="msg"
-                        value={msg} onChange={this.handleChange} />
+                    <textarea className="msg" type="text" name="msg"
+                        value={msg} cols="30" rows="10"
+                        onChange={this.handleChange}>
+                    </textarea>
                     <div className="send-mgs"><button>Send Massage</button></div>
                 </form>
             </section>

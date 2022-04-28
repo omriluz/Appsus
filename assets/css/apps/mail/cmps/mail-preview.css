@@ -5,16 +5,24 @@
     border-bottom: solid lightgrey 1px;
     font-size: 1.2rem;
     cursor: pointer;
+    color: #202e39;
+}
+
+.mail-preview:hover {
+    box-shadow: 2px 2px 20px lightgrey;
+
 }
 
 .mail-preview.read {
     background-color: #f5f7f7;
     color: rgb(162, 167, 170);
+
 }
+
 
 .mail-preview .from-name {
     position: absolute;
-    left: 5rem;
+    left: 4rem;
     top: 0.55rem;
 }
 
@@ -26,12 +34,23 @@
 
 .mail-preview .subject-body {
     position: absolute;
-    left: 21.5rem;
+    left: 14.5rem;
     top: 0.55rem;
+    padding-right: 240px;
+}
+
+@media screen and (max-width:1090px) {
+
+    .mail-preview .subject-body {
+        padding-right: 50px;
+    }
+
+
 }
 
 .mail-preview .subject-body span {
     color: rgb(162, 167, 170);
+    font-weight: 500;
 }
 
 
@@ -39,4 +58,25 @@
     position: absolute;
     right: 1rem;
     top: 0.55rem;
+}
+
+.mail-preview .star {
+    position: absolute;
+    left: 25px;
+    size: 10px;
+
+}
+
+.mail-preview .star.gold {
+    color: gold;
+
+}
+
+.mail-preview .star.black {
+    color: #202e39;
+
+}
+
+.mail-preview i {
+    font-size: 16px;
 }
