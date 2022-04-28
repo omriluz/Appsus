@@ -1,12 +1,14 @@
 export class NoteFilter extends React.Component {
 
     state = {
-        noteInput: ''
+        noteInput: '',
+        noteType: 'note-txt'
     }
 
     onCreateNote = (ev) => {
         ev.preventDefault()
-        this.props.createNote(noteInput)
+        this.props.createNote(this.state.noteInput, this.state.noteType)
+        this.setState({noteInput:''})
     }
 
     handleChange = ({ target }) => {
@@ -24,6 +26,12 @@ export class NoteFilter extends React.Component {
             <form onSubmit={(event) => this.onCreateNote(event)}>
                 <input value={noteInput} name='noteInput'
                     onChange={(event) => this.handleChange(event)} className="note-filter" type="text" />
+            <select onChange={(event) => this.handleChange(event)} name="noteType" id="">
+                <option value="note-txt">Note</option>
+                <option value="note-img">Image</option>
+                <option value="note-video">Video</option>
+                <option value="note-todos">Todo List</option>
+            </select>
             </form>
         </section>
     }

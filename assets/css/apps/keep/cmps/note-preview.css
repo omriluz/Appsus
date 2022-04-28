@@ -23,7 +23,6 @@
 }
 
 .preview-utils-container {
+    align-self: flex-end;
     width: 100%;
-    position: relative;
-    bottom: 2%;
 }
