@@ -1,0 +1,56 @@
+.mail-compose {
+    width: 555px;
+    height: 418px;
+    border-radius: 50px;
+    position: fixed;
+    bottom: 0;
+    right: 10rem;
+    z-index: 10;
+    border-radius: 20px;
+}
+
+.mail-compose .compose-header {
+    background-color: #404040;
+    width: 100%;
+    padding-bottom: 0.6rem;
+
+}
+
+.mail-compose .compose-header button {
+    background-color: #404040;
+    border: none;
+    font-size: 20px;
+    margin-top: 0.5rem;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.mail-compose .to {
+    width: 547px;
+}
+
+.mail-compose .subject {
+    width: 547px;
+}
+
+.mail-compose .msg {
+    width: 547px;
+    height: 330px;
+    position: relative;
+}
+
+.mail-compose .send-mgs {
+    position: absolute;
+    left: 3px;
+    bottom: 5.5px;
+}
+
+.mail-compose .send-mgs button {
+    background-color: #1a73e8;
+    padding: 0.7rem;
+    border-radius: 7px;
+    color: #ffffff;
+    font-weight: 400;
+    cursor: pointer;
+
+}

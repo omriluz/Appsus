@@ -4,7 +4,10 @@ import { storageService } from '../../../services/storage.service.js'
 export const mailService = {
     query,
     getById,
-    removeMail
+    removeMail,
+    isRead,
+    composeMail,
+    isNotRead
 }
 const KEY = 'mailsDB'
 
@@ -21,13 +24,33 @@ const criteria = {
     lables: ['important', 'romantic'] // has any of the labels
 }
 
-function query() {
+function query(filterBy) {
     let mails = _loadFromStorage()
     if (!mails) {
         mails = _createMails()
         console.log('mails', mails);
         _saveToStorage(mails)
     }
+    if (filterBy) {
+        let { searchMail, isRead } = filterBy
+        if (isRead === 'false') isRead = false
+        else if (isRead === 'true') isRead = true
+        console.log('isRead', isRead)
+
+        mails = mails.filter(mail => {
+            if (isRead === 'all') return (mail.from.includes(searchMail))
+            return (mail.from.includes(searchMail) && mail.isRead === isRead)
+        })
+    }
+
+    return Promise.resolve(mails)
+}
+
+function composeMail(mail) {
+    let mails = _loadFromStorage()
+    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to)
+    mails.unshift(sentMail)
+    _saveToStorage(mails)
     return Promise.resolve(mails)
 }
 
@@ -41,21 +64,36 @@ function removeMail(mailId) {
     let mails = _loadFromStorage()
     let mailIndex = mails.findIndex(mail => mailId === mail.id)
     mails[mailIndex].isRemoved = true
+    _saveToStorage(mails)
+}
 
+function isRead(mailId) {
+    let mails = _loadFromStorage()
+    let mailIndex = mails.findIndex(mail => mailId === mail.id)
+    mails[mailIndex].isRead = true
+    _saveToStorage(mails)
+    return Promise.resolve(mails)
+}
+function isNotRead(mailId) {
+    let mails = _loadFromStorage()
+    let mailIndex = mails.findIndex(mail => mailId === mail.id)
+    mails[mailIndex].isRead = false
+    _saveToStorage(mails)
+    return Promise.resolve(mails)
 }
 
 function _createMails() {
     const mails = []
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', 'momo@momo.com'))
+    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>'))
+    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>'))
+    mails.push(_createMail('Spotify', 'made for BFFs', '3 months of Premium for ₪19.90', '<no-reply@spotify.com> '))
+    mails.push(_createMail('Dropbox', 'Activity in Shared Folders', 'Follow specific folders and get focused updates Follow folders to get more detailed insights, reported instantly or once per day. Choose a folder to follow', ' <no-reply@dropbox.com>'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+
     return mails
 }
 
@@ -72,6 +110,8 @@ function _createMail(from, subject, body, to) {
         to
     }
 }
+
+
 
 function _saveToStorage(mails) {
     storageService.saveToStorage(KEY, mails)

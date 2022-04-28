@@ -2,29 +2,38 @@
     position: relative;
     width: 100%;
     height: 1.7rem;
-    border-bottom: solid black 1px;
+    border-bottom: solid lightgrey 1px;
     font-size: 1.2rem;
     cursor: pointer;
 }
 
+.mail-preview.read {
+    background-color: #f5f7f7;
+    color: rgb(162, 167, 170);
+}
+
 .mail-preview .from-name {
     position: absolute;
-    left: 6rem;
+    left: 5rem;
     top: 0.55rem;
 }
 
 .mail-preview .subject {
     position: absolute;
-    right: 24rem;
+    right: 21.7rem;
     top: 0.55rem;
 }
 
-.mail-preview .body {
+.mail-preview .subject-body {
     position: absolute;
-    right: 9.5rem;
+    left: 21.5rem;
     top: 0.55rem;
+}
+
+.mail-preview .subject-body span {
     color: rgb(162, 167, 170);
 }
+
 
 .mail-preview .sent-at {
     position: absolute;

@@ -1,5 +1,6 @@
 import { mailService } from "../service/mail.service.js";
-
+import { MailSide } from '../cmps/mail-side.jsx'
+import { MailApp } from "./mail-app.jsx";
 
 
 
@@ -20,7 +21,7 @@ export class MailDetails extends React.Component {
         const { mailId } = this.props.match.params
         mailService.getById(mailId)
             .then(mail => {
-                if (!mail) return this.props.history.push('/')
+                if (!mail) return this.props.history.push('/mail')
                 this.setState({ mail })
             })
     }
@@ -32,8 +33,12 @@ export class MailDetails extends React.Component {
 
     onRemoveMail = () => {
         mailService.removeMail(this.state.mail.id)
-
     }
+
+    onReadMail = () => {
+        mailService.isNotRead(this.state.mail.id)
+    }
+
 
 
 
@@ -42,9 +47,10 @@ export class MailDetails extends React.Component {
         const { mail } = this.state
         if (!mail) return <div>Loading..</div>
         return <section className="mail-details" >
+            <MailSide />
             <div className="mail-btn">
                 <button onClick={this.onGoBack}>Go back</button>
-                <button>Not read</button>
+                <button onClick={this.onReadMail} >Not read</button>
                 <button onClick={this.onRemoveMail} >delete</button>
             </div>
             <article className="mail-content">

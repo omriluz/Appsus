@@ -1,0 +1,36 @@
+.mail-details {
+    width: 600px;
+    margin-left: 15rem;
+    position: relative;
+}
+
+.mail-details .mail-btn {
+    position: absolute;
+    right: 0;
+    top: 1rem;
+}
+
+.mail-details .mail-btn>* {
+    margin-left: 0.5rem;
+}
+
+.mail-details .mail-content {
+    position: absolute;
+    top: 80px;
+}
+
+.mail-details .mail-content span {
+    font-size: 11px;
+    color: rgb(130, 129, 129);
+}
+
+.mail-details .mail-content h4 {
+    margin-top: 1rem;
+    font-size: 13px;
+
+}
+
+.mail-details .mail-content p {
+    font-size: 13px;
+
+}

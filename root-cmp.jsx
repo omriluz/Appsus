@@ -4,7 +4,7 @@
 // import { About } from './pages/about.jsx'
 // import { BookDetails } from './pages/book-details.jsx'
 import { AppHeader } from './cmps/app-header.jsx'
-// import { KeepApp } from './apps/keep/pages/note-app.jsx'
+import { KeepApp } from './apps/keep/pages/note-app.jsx'
 import { MailApp } from './apps/mail/pages/mail-app.jsx'
 import { MailDetails } from './apps/mail/pages/mail-details.jsx'
 
@@ -20,7 +20,7 @@ export function App() {
                 <Switch>
                     <Route path="/mail/:mailId" component={MailDetails} />
                     <Route path="/mail" component={MailApp} />
-                    {/* <Route path="/keep" component={KeepApp} /> */}
+                    <Route path="/keep" component={KeepApp} />
                     {/* <Route path="/book" component={BookApp} /> */}
                     {/* <Route path="/about" component={About} /> */}
                     {/* <Route path="/" component={HomePage} /> */}

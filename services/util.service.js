@@ -6,6 +6,7 @@ export const utilService = {
     padNum,
     getDayName,
     getMonthName,
+    subCharts
 }
 
 function makeId(length = 6) {
@@ -37,6 +38,11 @@ function getRandomIntInclusive(min, max) {
 
 function padNum(num) {
     return (num > 9) ? num + '' : '0' + num
+}
+
+function subCharts(str, num) {
+    // if (str < 25) return
+    return str.substring(0, num)
 }
 
 function getRandomColor() {
