@@ -65,12 +65,16 @@ export class KeepApp extends React.Component {
         this.loadNotes()
     }
 
+    editNote = () => {
+        // i think there wont be a need for this if so delete all children funcs
+        // noteService.editNote()
+    }
 
     render() {
         const { notes } = this.state
         return <section className="keep-app">
             <NoteFilter createNote={this.createNote} />
-            <NoteList notes={notes} deleteNote={this.deleteNote} onToggleTodo={this.onToggleTodo} />
+            <NoteList notes={notes} editNote={this.editNote} deleteNote={this.deleteNote} onToggleTodo={this.onToggleTodo} />
         </section>
 
     }
