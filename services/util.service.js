@@ -6,7 +6,8 @@ export const utilService = {
     padNum,
     getDayName,
     getMonthName,
-    subCharts
+    subCharts,
+    formatForEmbed
 }
 
 function makeId(length = 6) {
@@ -66,4 +67,13 @@ function getMonthName(date) {
         "July", "August", "September", "October", "November", "December"
     ]
     return monthNames[date.getMonth()]
+}
+
+function formatForEmbed(url) {
+    if (url.includes('watch') || url.includes('&')) {
+        url = url.replace('watch?v=', 'embed/')
+        url = url.replace(url.substring(url.indexOf('&')), '')
+        return url
+    }
+    return url
 }

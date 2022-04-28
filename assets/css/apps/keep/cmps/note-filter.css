@@ -4,5 +4,38 @@
 }
 
 .note-filter {
-    box-shadow: 3px 3px 5px 6px #ccc;
+    all: unset;
+    /* box-shadow: 3px 3px 5px 6px #ccc; */
+    width: 68%;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    margin-left: 20px;
+}
+
+.filter-form {
+    border: 10px solid rgb(232, 222, 222);
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    height: 50px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.filter-icon-container {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.filter-icon-container>* {
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+.filter-icon-container>*:hover {
+    opacity: 1;
 }

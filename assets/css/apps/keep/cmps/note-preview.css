@@ -1,6 +1,8 @@
 .note-preview {
     width: 200px;
     height: 250px;
+    /* border: 1px solid transparent; */
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

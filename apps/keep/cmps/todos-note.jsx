@@ -1,12 +1,12 @@
 import { utilService } from "../../../services/util.service.js";
 
+// TODO: decide if this needs to be a function
 export class TodosNote extends React.Component {
 
     render() {
         const { onToggleTodo } = this.props
         const { title,todos  } = this.props.note.info
         
-        console.log('todos render ', todos);
         
         return <section className="todo-container">
             <h2>{title}</h2>

@@ -77,6 +77,7 @@ function saveNote(note) {
     return _addNote(note)
 }
 
+
 function _update(noteToUpdate) {
     let notes = _loadFromStorage()
     notes = notes.map(note => note.id === noteToUpdate.id ? noteToUpdate : note)
