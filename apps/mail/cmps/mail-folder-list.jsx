@@ -29,7 +29,7 @@ export class MailFolderList extends React.Component {
         return <section><button className='btn-toggle-menu' onClick={this.toggleMenu}>☰</button>
             <section className={`mail-folder-list flex column  ${this.state.isToggle ? 'menu-open' : ''}`}>
                 <div className="add-mail" onClick={this.closeMenu} >
-                    <button onClick={this.state.onIsCompose}>Compose<img src="../../assets/img/compose.png" /></button>
+                    <button onClick={this.state.onIsCompose}>Compose<img src="../assets/img/compose.png" /></button>
                 </div>
                 <div className="mail-folders flex column" >
                     <Link to="/mail?status=inbox"> <div onClick={this.closeMenu}><i className="fa-solid fa-inbox"></i> Inbox <span>{this.onCountMail()}</span> </div></Link>
