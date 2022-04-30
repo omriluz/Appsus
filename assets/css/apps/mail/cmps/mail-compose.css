@@ -54,3 +54,33 @@
     cursor: pointer;
 
 }
+
+
+@media screen and (max-width:768px) {
+    .mail-compose .msg {
+        width: 285px;
+    }
+
+    .mail-compose .subject {
+        width: 285px;
+    }
+
+    .mail-compose .to {
+        width: 285px;
+    }
+
+    .mail-compose .compose-header {
+        width: 410%;
+    }
+
+    .mail-compose .send-mgs button {
+
+        padding: 0;
+    }
+
+    .mail-compose {
+        width: 69px;
+        height: 278px;
+        right: 13rem;
+    }
+}
