@@ -8,7 +8,6 @@ function _AppHeader(props) {
         {/* <SearchBar toSearch={mails} /> */}
         
         <h3>AppSus</h3>
-        <NoteSearch/>
         <nav>
             <NavLink to="/" exact >Home</NavLink>
             <NavLink to="/about">About</NavLink>
