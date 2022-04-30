@@ -8,6 +8,7 @@ import { KeepApp } from './apps/keep/pages/note-app.jsx'
 import { NoteDetails } from './apps/keep/pages/note-details.jsx'
 import { MailApp } from './apps/mail/pages/mail-app.jsx'
 import { MailDetails } from './apps/mail/pages/mail-details.jsx'
+import { UserMsg } from './cmps/user-msg.jsx'
 
 const Router = ReactRouterDOM.HashRouter
 const { Route, Switch } = ReactRouterDOM
@@ -30,6 +31,7 @@ export function App() {
 
             </main>
         </section>
+        <UserMsg />
     </Router>
 }
 

@@ -8,7 +8,10 @@ export const mailService = {
     isRead,
     composeMail,
     isNotRead,
-    isStared
+    isStared,
+    mailCount,
+    setMailSort,
+    composeDraftMail
 }
 const KEY = 'mailsDB'
 
@@ -38,10 +41,34 @@ function query(filterBy) {
         if (isRead === 'false') isRead = false
         else if (isRead === 'true') isRead = true
         mails = mails.filter(mail => {
-            if (isRead === 'all') return (mail.from.toLowerCase().includes(txt.toLowerCase()))
+            if (isRead === 'all') return (mail.from.toLowerCase().includes(txt.toLowerCase())
+                || mail.subject.toLowerCase().includes(txt.toLowerCase()))
 
-            return (mail.from.toLowerCase().includes(txt.toLowerCase()) && mail.isRead === isRead)
+            return ((mail.from.toLowerCase().includes(txt.toLowerCase()) && mail.isRead === isRead)
+                || (mail.subject.toLowerCase().includes(txt.toLowerCase()) && mail.isRead === isRead))
         })
+    }
+
+    return Promise.resolve(mails)
+}
+
+function mailCount() {
+    let mails = _loadFromStorage()
+    if (!mails) return
+    const unReadMails = mails.filter(mail => !mail.isRead && mail.status === 'inbox')
+    if (!unReadMails) return
+    return unReadMails.length
+
+}
+
+function setMailSort(sortBy = {}) {
+    console.log(sortBy);
+    let mails = _loadFromStorage()
+    if (sortBy.date !== undefined) {
+        mails.sort((c1, c2) => (c1.sentAt - c2.sentAt) * sortBy.date)
+    }
+    else if (sortBy.title !== undefined) {
+        mails.sort((c1, c2) => c1.from.localeCompare(c2.from) * sortBy.title);
     }
 
     return Promise.resolve(mails)
@@ -49,11 +76,22 @@ function query(filterBy) {
 
 function composeMail(mail) {
     let mails = _loadFromStorage()
-    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to)
+    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'sent')
     mails.unshift(sentMail)
     _saveToStorage(mails)
     return Promise.resolve(mails)
 }
+
+
+function composeDraftMail(mail) {
+    let mails = _loadFromStorage()
+    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'draft')
+    mails.unshift(sentMail)
+    _saveToStorage(mails)
+    return Promise.resolve(mails)
+}
+
+
 
 function getById(mailId) {
     const mails = _loadFromStorage()
@@ -64,8 +102,10 @@ function getById(mailId) {
 function removeMail(mailId) {
     let mails = _loadFromStorage()
     let mailIndex = mails.findIndex(mail => mailId === mail.id)
-    mails[mailIndex].isRemoved = true
+    if (mails[mailIndex].status === 'trash') mails.splice(mailIndex, 1)
+    else mails[mailIndex].status = 'trash'
     _saveToStorage(mails)
+    return Promise.resolve(mails)
 }
 
 function isRead(mailId) {
@@ -94,21 +134,21 @@ function isNotRead(mailId) {
 
 function _createMails() {
     const mails = []
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>'))
-    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>'))
-    mails.push(_createMail('Spotify', 'made for BFFs', '3 months of Premium for ₪19.90', '<no-reply@spotify.com> '))
-    mails.push(_createMail('Dropbox', 'Activity in Shared Folders', 'Follow specific folders and get focused updates Follow folders to get more detailed insights, reported instantly or once per day. Choose a folder to follow', ' <no-reply@dropbox.com>'))
-    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
-    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
-    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
-    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
-    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>'))
+    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>', 'inbox'))
+    mails.push(_createMail('Jonathan Ben Zeev', 'Miss you!', 'Would love to catch up sometimes', '<momo@momo.com>', 'inbox'))
+    mails.push(_createMail('Spotify', 'made for BFFs', '3 months of Premium for ₪19.90', '<no-reply@spotify.com> ', 'inbox'))
+    mails.push(_createMail('Dropbox', 'Activity in Shared Folders', 'Follow specific folders and get focused updates Follow folders to get more detailed insights, reported instantly or once per day. Choose a folder to follow', ' <no-reply@dropbox.com>', 'inbox'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>', 'sent'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>', 'sent'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>', 'inbox'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>', 'inbox'))
+    mails.push(_createMail(' Apple', 'Your invoice from Apple.', '  You have the option to stop receiving email receipts for your subscription renewals. If you have opted out, you can still view your receipts in your account under Purchase History. To manage receipts or to opt in again, go to Account Settings.', '<no_reply@email.apple.com>', 'inbox'))
 
     return mails
 }
 
 
-function _createMail(from, subject, body, to) {
+function _createMail(from, subject, body, to, status) {
     return {
         id: utilService.makeId(),
         from,
@@ -116,9 +156,9 @@ function _createMail(from, subject, body, to) {
         body,
         isStared: false,
         isRead: false,
-        isRemoved: false,
         sentAt: new Date().toLocaleTimeString(),
-        to
+        to,
+        status,
     }
 }
 

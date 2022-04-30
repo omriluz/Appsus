@@ -21,3 +21,19 @@
     }
 
 }
+
+@media screen and (max-width:608px) {
+    .mail-list {
+        width: 24rem;
+        margin-left: 199px;
+
+    }
+
+}
+
+@media screen and (max-width:500px) {
+    .mail-list {
+        margin-left: 46px;
+    }
+
+}
