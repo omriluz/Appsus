@@ -8,9 +8,25 @@
     color: #202e39;
 }
 
+.mail-preview .trash {
+    opacity: 0;
+}
+
 .mail-preview:hover {
     box-shadow: 2px 2px 20px lightgrey;
 
+}
+
+.mail-preview:hover>* {
+    /* box-shadow: 2px 2px 20px lightgrey; */
+    opacity: 1;
+    color: #202e39;
+    background-color: transparent;
+}
+
+.mail-preview .trash:hover {
+    opacity: 1;
+    /* color: #202e39; */
 }
 
 .mail-preview.read {
@@ -47,6 +63,75 @@
 
 
 }
+
+@media screen and (max-width:828px) {
+
+    .mail-preview {
+        width: 68vw;
+        height: 4.7rem;
+        position: relative;
+    }
+
+    .mail-preview .subject-body {
+        position: absolute;
+        left: 13rem;
+        top: 0.55rem;
+    }
+
+    .mail-preview .subject-body span {
+        position: absolute;
+        top: 30px;
+        left: 0px;
+    }
+
+
+
+}
+
+@media screen and (max-width:608px) {
+    .mail-preview {
+        width: 68vw;
+    }
+
+    .mail-preview .subject-body {
+        position: absolute;
+        left: 4.5rem;
+        top: 2.2rem;
+        font-size: 16px;
+    }
+
+    .mail-preview .subject-body span {
+        top: 16px;
+    }
+
+    .mail-preview .sent-at {
+        right: 0.3rem;
+        font-size: 18px;
+    }
+
+    .mail-preview .from-name {
+        font-size: 18px;
+    }
+
+    .mail-preview i {
+        font-size: 14px;
+        margin-top: 11px;
+    }
+
+    .mail-preview .star.gold {
+        top: 2px;
+    }
+}
+
+@media screen and (max-width:500px) {
+
+    .mail-preview {
+        width: 97vw;
+    }
+}
+
+
+
 
 .mail-preview .subject-body span {
     color: rgb(162, 167, 170);

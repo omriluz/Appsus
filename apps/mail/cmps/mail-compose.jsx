@@ -1,4 +1,5 @@
 import { mailService } from "../service/mail.service.js"
+import { eventBusService } from "../../../services/event-bus.service.js"
 
 
 export class MailCompose extends React.Component {
@@ -7,9 +8,21 @@ export class MailCompose extends React.Component {
         mail: {
             to: '',
             subject: '',
-            msg: ''
+            msg: '',
         }
+
     }
+
+    componentDidMount() {
+        this.loadMail()
+        console.log(this.props);
+
+    }
+
+    loadMail = () => {
+        if (this.props.mail !== null) this.setState({ mail: this.props.mail })
+    }
+
 
     handleChange = ({ target }) => {
         const field = target.name
@@ -22,6 +35,25 @@ export class MailCompose extends React.Component {
         mailService.composeMail(this.state.mail)
             .then(() => {
                 this.props.onCloseCompose()
+                eventBusService.emit('user-msg', {
+                    type: 'success', txt: 'The message has been sent'
+                })
+            })
+            .catch(() => {
+                eventBusService.emit('user-msg', {
+                    type: 'danger', txt: 'Could not send message '
+                })
+            })
+    }
+
+
+    onComposeDraftMail = () => {
+        mailService.composeDraftMail(this.state.mail)
+            .then(() => {
+                this.props.onCloseCompose()
+                eventBusService.emit('user-msg', {
+                    type: 'success', txt: 'The message moved to draft'
+                })
             })
     }
 
@@ -30,7 +62,7 @@ export class MailCompose extends React.Component {
 
         return (this.props.isCompose &&
             (<section className="mail-compose flex column align-center" >
-                <header className="compose-header"><button onClick={this.props.onCloseCompose} >x</button></header>
+                <header className="compose-header"><button onClick={this.onComposeDraftMail} >x</button></header>
                 <form className="flex column align-center" onSubmit={this.onComposeMail}>
                     <input placeholder="To:" className="to" type="text" name="to"
                         value={to} onChange={this.handleChange} />

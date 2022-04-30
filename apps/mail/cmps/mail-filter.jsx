@@ -8,6 +8,7 @@ export class MailFilter extends React.Component {
             txt: '',
             isRead: ''
         }
+
     }
 
 
@@ -34,7 +35,7 @@ export class MailFilter extends React.Component {
 
     render() {
         const { txt, isRead } = this.state.filterBy
-        return <section className="mail-filter">
+        return <section className='mail-filter' >
             <form onSubmit={this.onFilter} >
                 <input type="text" placeholder="Search mail" name="txt"
                     value={txt} onChange={this.handleChange} />

@@ -1,14 +1,19 @@
 import { mailService } from '../service/mail.service.js'
+import { eventBusService } from '../../../services/event-bus.service.js'
 import { MailList } from '../cmps/mail-list.jsx'
 import { MailCompose } from '../cmps/mail-compose.jsx'
 import { MailFolderList } from '../cmps/mail-folder-list.jsx'
 import { MailFilter } from '../cmps/mail-filter.jsx'
+import { MailSort } from '../cmps/mail-sort.jsx'
 
 export class MailApp extends React.Component {
     state = {
         mails: [],
         isCompose: false,
-        filterBy: null
+        filterBy: null,
+        sortBy: null,
+        mail: null
+
     }
 
     componentDidMount() {
@@ -24,8 +29,19 @@ export class MailApp extends React.Component {
 
 
     loadMails = () => {
-        mailService.query(this.state.filterBy)
+        const { filterBy } = this.state
+        mailService.query(filterBy)
             .then(mails => this.setState({ mails }))
+    }
+
+    onRemoveMail = (mailId) => {
+        mailService.removeMail(mailId)
+            .then(() => {
+                this.loadMails()
+                eventBusService.emit('user-msg', {
+                    type: 'success', txt: 'Mail moved to trash'
+                })
+            })
     }
 
     onIsRead = (mailId) => {
@@ -36,13 +52,28 @@ export class MailApp extends React.Component {
 
     onIsStared = (mailId) => {
         mailService.isStared(mailId)
-            .then(this.loadMails)
+            .then(() => {
+                this.loadMails()
+                eventBusService.emit('user-msg', {
+                    type: 'success', txt: 'Mail marked as stared'
+                })
+            })
     }
 
     onSetFilter = (filterBy) => {
         this.setState({ filterBy }, () => {
             this.loadMails()
         })
+    }
+
+    onSetSort = (sortBy) => {
+        this.setState({ sortBy }, () => {
+            mailService.setMailSort(sortBy)
+                .then(this.loadMails)
+        })
+
+
+
     }
 
     onIsCompose = () => {
@@ -55,15 +86,37 @@ export class MailApp extends React.Component {
 
     }
 
+    onOpenDraft = (mailId) => {
+        console.log(mailId);
+        mailService.getById(mailId)
+            .then((mail) => {
+                this.setState({ mail: { to: mail.to, subject: mail.subject, msg: mail.body } })
+                this.onIsCompose()
+                console.log(this.state.mail);
+            })
+    }
+
+    get mailsToDisplay() {
+        const { mails } = this.state
+        const urlSrcPrm = new URLSearchParams(this.props.location.search)
+        const status = urlSrcPrm.get('status')
+        const isStared = urlSrcPrm.get('isStared')
+        if (!status && !isStared) return mails
+        else if (isStared) return mails.filter(mail => mail.isStared)
+        return mails.filter(mail => mail.status === status)
+    }
+
 
     render() {
-        const { mails, isCompose } = this.state
+        const { isCompose } = this.state
         return <section className="mail-app">
             <MailFolderList onIsCompose={this.onIsCompose} />
-            <MailFilter onSetFilter={this.onSetFilter} history={this.props.history} />
-            <MailCompose isCompose={isCompose}
-                onCloseCompose={this.onCloseCompose} />
-            <MailList mails={mails} onIsRead={this.onIsRead} onIsStared={this.onIsStared} />
+            {/* <MailSort onSetSort={this.onSetSort} /> */}
+            <MailFilter onSetFilter={this.onSetFilter} isCompose={isCompose} onCloseCompose={this.onCloseCompose} />
+            {isCompose && <MailCompose isCompose={isCompose}
+                onCloseCompose={this.onCloseCompose}
+                mail={this.state.mail} />}
+            <MailList onOpenDraft={this.onOpenDraft} mails={this.mailsToDisplay} onIsRead={this.onIsRead} onIsStared={this.onIsStared} onRemoveMail={this.onRemoveMail} />
         </section>
     }
 

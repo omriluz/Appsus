@@ -1,14 +1,18 @@
 .mail-details {
-    width: 600px;
-    margin-left: 15rem;
+    width: 633px;
+    margin-left: 4rem;
     position: relative;
 }
 
 .mail-details .mail-btn {
     position: absolute;
-    right: 0;
-    top: 1rem;
+    right: 0rem;
+    top: 11rem;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #202e39;
 }
+
 
 .mail-details .mail-btn>* {
     margin-left: 0.5rem;
@@ -16,7 +20,8 @@
 
 .mail-details .mail-content {
     position: absolute;
-    top: 80px;
+    left: 19rem;
+    top: 15rem;
 }
 
 .mail-details .mail-content span {

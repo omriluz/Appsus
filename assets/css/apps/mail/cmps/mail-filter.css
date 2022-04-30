@@ -4,6 +4,8 @@
     margin-top: 0;
 }
 
+
+
 .mail-filter form>* {
     height: 50px;
     background-color: #f1f3f4;
@@ -14,4 +16,51 @@
 .mail-filter input {
     width: 450px;
     margin-right: 2px;
+}
+
+@media screen and (max-width:828px) {
+    .mail-filter input {
+        width: 306px;
+    }
+
+    .mail-filter {
+
+        margin-inline-start: 187px;
+    }
+}
+
+@media screen and (max-width:608px) {
+    .mail-filter {
+        margin-inline-start: 43px;
+    }
+
+    .mail-filter input {
+        width: 194px;
+
+    }
+}
+
+@media screen and (max-width:500px) {
+    .mail-filter input {
+        width: 150px;
+
+    }
+
+    .mail-filter select {
+        width: 45px;
+    }
+
+    .mail-filter form {
+        height: 40px;
+    }
+
+    .mail-filter form>* {
+        height: 38px;
+
+    }
+
+}
+
+.mail-filter select {
+    cursor: pointer;
 }
