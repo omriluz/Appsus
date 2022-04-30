@@ -1,0 +1,16 @@
+.note-details-container {
+    background-color: blue;
+    width: 100%;
+    height: 78vh;
+    display: grid;
+    place-items: center;
+}
+
+.note-detail-item {
+    background-color: beige;
+}
+
+.edit-content {
+    inline-size: 200px;
+    overflow-wrap: break-word;
+}
