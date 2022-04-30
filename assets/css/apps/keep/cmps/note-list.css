@@ -1,8 +1,10 @@
 .note-list {
-    /* TODO: implement masonry grid */
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    place-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+    column-count: 2;
+    column-gap: 1em;
+}
+
+@media screen and (min-width: 470px) {
+    .note-list {
+        column-count: 3;
+    }
 }

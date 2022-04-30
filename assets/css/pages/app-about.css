@@ -1,0 +1,14 @@
+.about-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: beige;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    height: 500px;
+    /* background-color: red; */
+    background-image: url(/assets/img/about.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}

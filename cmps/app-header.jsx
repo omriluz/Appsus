@@ -1,10 +1,12 @@
 const { Link, NavLink, withRouter } = ReactRouterDOM
+import {NoteSearch} from '../apps/keep/cmps/note-search.jsx'
 
 function _AppHeader(props) {
     return <header className="app-header">
 
 
         {/* <SearchBar toSearch={mails} /> */}
+        
         <h3>AppSus</h3>
         <nav>
             <NavLink to="/" exact >Home</NavLink>

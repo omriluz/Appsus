@@ -1,30 +1,100 @@
 .note-preview {
-    width: 200px;
-    height: 250px;
-    /* border: 1px solid transparent; */
-    border-radius: 8px;
     display: flex;
+    margin: 0 0 1em;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    height: auto;
+    border-radius: 8px;
+    position: relative;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     text-align: center;
+    transition: width 0.4s ease-in-out, opacity 0.4s ease-in-out, box-shadow 0.17s ease-in-out;
 }
 
-.note-preview:hover {
-    box-shadow: 3px 3px 5px 6px #ccc;
-}
 
-.todo-img-title {
-    position: relative;
-    top: 5%;
-}
+/* do i need this class? if not delete */
 
 .note-text {
     position: relative;
     top: 20%;
 }
 
+.preview-btns-container {
+    /* align-self: flex-end;
+    margin-bottom: 2%;
+    margin-top: 2%;*/
+    width: 70%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.preview-btns-container>* {
+    opacity: 1;
+}
+
+.preview-deleted {
+    width: 10%;
+    opacity: 0;
+}
+
 .preview-utils-container {
     align-self: flex-end;
     width: 100%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.note-preview:hover {
+    box-shadow: 0px 0px 5px 5px #ccc;
+}
+
+.note-preview:hover>*:last-child>*>* {
+    opacity: 1;
+}
+
+.preview-color-container {
+    position: relative;
+    left: 6%;
+    display: none;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.color-item {
+    background-color: yellowgreen;
+    width: 10%;
+    height: 90%;
+    border: solid 1px black;
+    opacity: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+@media screen and (min-width: 470px) {
+    .note-preview {
+        min-height: 250px;
+    }
+    .preview-btns-container>* {
+        cursor: pointer;
+        opacity: 0;
+    }
+    .note-preview:hover {
+        box-shadow: 0px 0px 5px 5px #ccc;
+    }
+    .note-preview:hover>*:last-child>*>* {
+        opacity: 0.4;
+        transition: opacity 0.4s ease-in-out;
+    }
+    .note-preview>*:last-child>*>*:hover {
+        opacity: 1;
+        transition: opacity 0.17s ease-in-out;
+    }
 }

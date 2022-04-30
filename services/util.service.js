@@ -70,9 +70,10 @@ function getMonthName(date) {
 }
 
 function formatForEmbed(url) {
-    if (url.includes('watch') || url.includes('&')) {
+    if (url.includes('watch') || url.includes('&') || !url.includes('controls')) {
         url = url.replace('watch?v=', 'embed/')
-        url = url.replace(url.substring(url.indexOf('&')), '')
+        url = url.includes('&') ? url.replace(url.substring(url.indexOf('&')), '') : url
+        url = url + '?modestbranding=1&showinfo=0'
         return url
     }
     return url

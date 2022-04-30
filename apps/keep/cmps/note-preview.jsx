@@ -8,37 +8,104 @@ const { Link } = ReactRouterDOM
 
 export class NotePreview extends React.Component {
 
-    onDeleteNote = () => {
-        this.props.deleteNote(this.props.note.id)
+    state = {
+        isDeleted: false,
+        previewStyle: {
+            backgroundColor:''
+        }
     }
 
-    onEditNote = () => {
-        this.props.editNote(this.props.note.id)
+    colorDiv = React.createRef()
+    copyButton = React.createRef()
+    deleteButton = React.createRef()
+    editButton = React.createRef()
+
+    onDeleteNote = (ev) => {
+        ev.stopPropagation()
+        this.setState(() => ({ isDeleted: true }), () => {
+            setTimeout(() => {
+                this.props.deleteNote(this.props.note.id)
+            }, 300)
+        })
     }
+
+    onCopyNote = (ev) => {
+        ev.stopPropagation()
+        this.props.copyNote(this.props.note.id)
+    }
+
+    onPinNote = (ev) => {
+        ev.stopPropagation()
+    }
+
+    onTogglePallete = (ev) => {
+        const refs = ['colorDiv', 'copyButton', 'deleteButton', 'editButton']
+        ev.stopPropagation()
+
+        if (this.colorDiv.current.style.display === 'none' || this.colorDiv.current.style.display === '') {
+            refs.map((ref, idx) => {
+                idx === 0 ? this[ref].current.style.display = 'flex' :
+                    this[ref].current.hidden = true })
+        } else {
+            refs.map((ref, idx) => {
+                idx === 0 ? this[ref].current.style.display = 'none' :
+                    this[ref].current.hidden = false
+            })
+        }
+    }
+
+
+    onChangeColor = (field, value) => {
+        this.setState((prevState) => ({
+             previewStyle: { 
+                 ...prevState.previewStyle, [field]: value } 
+                }), () => {
+                    this.props.changeColor(this.props.note.id, this.state.previewStyle.backgroundColor)
+                 }) 
+    }
+
 
     render() {
-        const { note, onToggleTodo, onEditNote } = this.props
-        return <section className="note-preview" style={note.style}>
-            {/* <h2 className={note.info.title ? 'todo-img-title' : 'note-text'}>{note.info.title || note.info.txt}</h2> : */}
+        const { note, onTodoUpdateDelete, onAddTodoItem } = this.props
+        const colors = ['#B4FF9F', '#F9FFA4', '#35bfb8', '#FFA1A1', '#98138d', '#d9852c']
+
+        // later add section click will lead to edit view
+        return <section className={`note-preview ${this.state.isDeleted ? 'preview-deleted' : ''}`} style={note.style}>
             <div className="flex-helper"></div>
 
-            <DynamicNoteTypeCmp type={note.type} note={note} onToggleTodo={onToggleTodo}/>
+            <DynamicNoteTypeCmp type={note.type} note={note} onTodoUpdateDelete={onTodoUpdateDelete} onAddTodoItem={onAddTodoItem} />
 
 
             <div className="preview-utils-container">
-                {/* todo add util buttons here */}
-                <button onClick={() => this.onDeleteNote()} className="delete-preview-btn">delete</button>
-                <button onClick={() => this.onEditNote()} className="edit-preview-btn">edit</button>
+                <div ref={this.colorDiv} className="preview-color-container">
+{/* 
+                    {colors.map(color => <div className="color-item" key={color}
+                        style={{ backgroundColor: color }}
+                        onClick={() => handleStyleChange('backgroundColor', color)}>
+                    </div>)} */}
+
+                    {colors.map(color => <div className="color-item" key={color}
+                        style={{ backgroundColor: color }} 
+                        onClick={() => this.onChangeColor('backgroundColor', color)}></div>)}
+                </div>
+                <div className="preview-btns-container">
+                    <div ref={this.copyButton} ><i onClick={(event) => this.onCopyNote(event)} className="fa-solid fa-copy"></i></div>
+                    <div ref={this.deleteButton}><i onClick={(event) => this.onDeleteNote(event)} className="delete-preview-btn fa-regular fa-trash-can"></i></div>
+                    <div ref={this.editButton}><Link to={`/keep/${note.id}`}><i className="edit-preview-btn fa-regular fa-pen-to-square"></i></Link></div>
+                    <i onClick={(event) => this.onTogglePallete(event)} className="fa-solid fa-palette"></i>
+
+                    {/* move thumb tack to the top eventually */}
+                    <i onClick={(event) => this.onPinNote(event)} className="fa-solid fa-thumbtack"></i>
+                </div>
             </div>
         </section>
-    
-    // <Link to={`/keep/${note.id}`}> </Link>
+
     }
 }
 
 
 
-function DynamicNoteTypeCmp({ type, note, onToggleTodo }) {
+function DynamicNoteTypeCmp({ type, note, onTodoUpdateDelete, onAddTodoItem }) {
     switch (type) {
         case 'note-txt':
             return <TextNote note={note} />
@@ -47,6 +114,6 @@ function DynamicNoteTypeCmp({ type, note, onToggleTodo }) {
         case 'note-video':
             return <VideoNote note={note} />
         case 'note-todos':
-            return <TodosNote note={note} onToggleTodo={onToggleTodo} />
+            return <TodosNote note={note} onTodoUpdateDelete={onTodoUpdateDelete} onAddTodoItem={onAddTodoItem} />
     }
 }

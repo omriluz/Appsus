@@ -4,22 +4,57 @@ import { storageService } from '../../../services/storage.service.js';
 export const noteService = {
     query,
     saveNote,
-    remove,
-    toggleTodo
+    deleteNote,
+    addTodoItem,
+    getById,
+    todoUpdateDelete,
+    copyNote,
+    changeColor
 }
 
 const KEY = 'notesDB'
 
 
 
-function query() {
+function query(filterBy) {
+
     let notes = _loadFromStorage()
     if (!notes) {
         notes = _createNotes()
         _saveToStorage(notes)
     }
+    if (filterBy) {
+        // console.log('this is filterby', filterBy);
+        const { txt, noteType } = filterBy
+        // console.log('this is the notetype before the condition', noteType);
+        // if (noteType !== 'all') {
+        //     notes = notes.filter(note =>
+        //         note.type === noteType
+        //     )
+        //     if (txt !== '') {
+        //         notes = notes.filter(note =>
+        //             note.info.txt === txt)
+        // notes = notes.filter(note => {
+        // console.log('this is the note', note);
+        // if (noteType === 'all' || noteType === '') return note.info.txt.toLowerCase().includes(txt.toLowerCase())
+        // return note.info.txt.toLowerCase().includes(txt.toLowerCase()) && note.type === noteType
+        // })
+    }
+    // if (!txt) txt = null;
+    // if (!noteType) noteType = ''
+    // notes = notes.filter(note =>
+    //         note.type === noteType
+    //     )
+    // && note.info.speed <= maxSpeed &&
+    // car.speed >= minSpeed)
+
+    console.log('this notes', notes);
     return Promise.resolve(notes)
 }
+
+
+
+
 
 
 function _createNotes() {
@@ -39,6 +74,10 @@ function _createNotes() {
         url: "https://picsum.photos/200",
         title: "Bobi and Me"
     }))
+    notes.push(_createNote('note-img', {
+        url: "https://www.qries.com/images/banner_logo.png",
+        title: "Bobi and Me"
+    }))
     notes.push(_createNote('note-todos', {
         title: 'my todo list',
         label: "Get my stuff together",
@@ -50,25 +89,43 @@ function _createNotes() {
     return notes
 }
 
-function remove(noteId) {
+function deleteNote(noteId) {
     let notes = _loadFromStorage()
     notes = notes.filter(note => note.id !== noteId)
     _saveToStorage(notes)
     return Promise.resolve()
 }
 
-function toggleTodo(todoIdx, noteId) {
+function todoUpdateDelete(todoIdx, noteId, action, txt) {
     let notes = _loadFromStorage()
-        // const noteIdx = notes.findIndex(note => note.id === noteId)
-        // notes[noteIdx].info.todos[todoIdx].doneAt = notes[noteIdx].info.todos[todoIdx].doneAt ? Date.now() : null;
     notes.forEach((note) => {
         if (note.id === noteId) {
-            note.info.todos[todoIdx].doneAt = note.info.todos[todoIdx].doneAt ?
-                null : +new Date()
+            if (action === 'delete') {
+                note.info.todos.splice(todoIdx, 1)
+            } else if (action === 'toggleDone') {
+                note.info.todos[todoIdx].doneAt = note.info.todos[todoIdx].doneAt ?
+                    null : +new Date()
+            } else if (action === 'updateTxt') {
+                note.info.todos[todoIdx].txt = txt
+            }
         }
     })
     _saveToStorage(notes)
     return Promise.resolve()
+}
+
+function addTodoItem(noteId) {
+    const notes = _loadFromStorage()
+    const note = notes.find(note => noteId === note.id)
+    note.info.todos.push({ 'txt': 'new todo line', doneAt: null })
+    _saveToStorage(notes)
+    return Promise.resolve()
+}
+
+function getById(noteId) {
+    const notes = _loadFromStorage()
+    const note = notes.find(note => noteId === note.id)
+    return Promise.resolve(note)
 }
 
 
@@ -77,6 +134,27 @@ function saveNote(note) {
     return _addNote(note)
 }
 
+
+function changeColor(noteId, color) {
+    const notes = _loadFromStorage()
+    const note = notes.find(note => noteId === note.id)
+    note.style.backgroundColor = color
+    _saveToStorage(notes)
+    return Promise.resolve()
+}
+
+function copyNote(noteId) {
+    const notes = _loadFromStorage()
+    const note = notes.find(note => noteId === note.id)
+    const noteIdx = notes.findIndex(note => noteId === note.id)
+    let noteCopy = JSON.parse(JSON.stringify(note))
+    noteCopy.id = utilService.makeId()
+
+    notes.splice(noteIdx, 0, noteCopy)
+    _saveToStorage(notes)
+
+    return Promise.resolve()
+}
 
 function _update(noteToUpdate) {
     let notes = _loadFromStorage()
@@ -100,7 +178,7 @@ function _createNote(type, info) {
         isPinned: false,
         info,
         style: {
-            backgroundColor: utilService.getRandomColor()
+            backgroundColor: '#f5f5dc'
         }
     }
 }

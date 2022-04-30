@@ -1,4 +1,11 @@
 .text-note-content {
-    inline-size: 189px;
+    inline-size: 85%;
     overflow-wrap: break-word;
+    font-size: 14px;
+}
+
+@media screen and (min-width: 470px) {
+    .text-note-content {
+        font-size: 24px;
+    }
 }
