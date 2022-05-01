@@ -18,7 +18,6 @@ export class NotePreview extends React.Component {
     colorDiv = React.createRef()
     copyButton = React.createRef()
     deleteButton = React.createRef()
-    editButton = React.createRef()
 
     onDeleteNote = (ev) => {
         ev.stopPropagation()
@@ -34,12 +33,8 @@ export class NotePreview extends React.Component {
         this.props.copyNote(this.props.note.id)
     }
 
-    onPinNote = (ev) => {
-        ev.stopPropagation()
-    }
-
     onTogglePallete = (ev) => {
-        const refs = ['colorDiv', 'copyButton', 'deleteButton', 'editButton']
+        const refs = ['colorDiv', 'copyButton', 'deleteButton']
         ev.stopPropagation()
 
         if (this.colorDiv.current.style.display === 'none' || this.colorDiv.current.style.display === '') {
@@ -66,23 +61,18 @@ export class NotePreview extends React.Component {
 
 
     render() {
-        const { note, onTodoUpdateDelete, onAddTodoItem } = this.props
+        const { note, onTodoUpdateDelete, onAddTodoItem, onSaveNote } = this.props
         const colors = ['#B4FF9F', '#F9FFA4', '#35bfb8', '#FFA1A1', '#98138d', '#d9852c']
 
-        // later add section click will lead to edit view
         return <section className={`note-preview ${this.state.isDeleted ? 'preview-deleted' : ''}`} style={note.style}>
-            <div className="flex-helper"></div>
 
-            <DynamicNoteTypeCmp type={note.type} note={note} onTodoUpdateDelete={onTodoUpdateDelete} onAddTodoItem={onAddTodoItem} />
+            <DynamicNoteTypeCmp type={note.type} note={note}
+             onTodoUpdateDelete={onTodoUpdateDelete}
+              onAddTodoItem={onAddTodoItem} onSaveNote={onSaveNote} />
 
 
             <div className="preview-utils-container">
                 <div ref={this.colorDiv} className="preview-color-container">
-{/* 
-                    {colors.map(color => <div className="color-item" key={color}
-                        style={{ backgroundColor: color }}
-                        onClick={() => handleStyleChange('backgroundColor', color)}>
-                    </div>)} */}
 
                     {colors.map(color => <div className="color-item" key={color}
                         style={{ backgroundColor: color }} 
@@ -91,11 +81,8 @@ export class NotePreview extends React.Component {
                 <div className="preview-btns-container">
                     <div ref={this.copyButton} ><i onClick={(event) => this.onCopyNote(event)} className="fa-solid fa-copy"></i></div>
                     <div ref={this.deleteButton}><i onClick={(event) => this.onDeleteNote(event)} className="delete-preview-btn fa-regular fa-trash-can"></i></div>
-                    <div ref={this.editButton}><Link to={`/keep/${note.id}`}><i className="edit-preview-btn fa-regular fa-pen-to-square"></i></Link></div>
                     <i onClick={(event) => this.onTogglePallete(event)} className="fa-solid fa-palette"></i>
 
-                    {/* move thumb tack to the top eventually */}
-                    <i onClick={(event) => this.onPinNote(event)} className="fa-solid fa-thumbtack"></i>
                 </div>
             </div>
         </section>
@@ -105,10 +92,10 @@ export class NotePreview extends React.Component {
 
 
 
-function DynamicNoteTypeCmp({ type, note, onTodoUpdateDelete, onAddTodoItem }) {
+function DynamicNoteTypeCmp({ type, note, onTodoUpdateDelete, onAddTodoItem, onSaveNote}) {
     switch (type) {
         case 'note-txt':
-            return <TextNote note={note} />
+            return <TextNote note={note} onSaveNote={onSaveNote} />
         case 'note-img':
             return <ImageNote note={note} />
         case 'note-video':

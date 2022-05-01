@@ -88,6 +88,7 @@ export class NoteDetails extends React.Component {
             noteKey = Object.keys(note.info)[0]
         }
         return <section className="note-details-container">
+            {note && <h1>Edit your note</h1>}
 
             {note && <input value={noteInfoToEdit} name={noteKey} onChange={(event) => this.handleInfoChange(event)} type="text" />}
 

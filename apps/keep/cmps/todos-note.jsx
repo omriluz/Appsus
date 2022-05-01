@@ -19,7 +19,7 @@ export class TodosNote extends React.Component {
         const { title, todos } = this.props.note.info
 
         return <section className="todo-container">
-            <h2>{title}</h2>
+            <h2 className="todo-title">{title}</h2>
             <ul className="todo-list">
                 {todos.map((todo, idx) => {
                     return <div className="todo-item"
@@ -30,12 +30,12 @@ export class TodosNote extends React.Component {
                         <span onBlur={(event) => onTodoUpdateDelete(idx, this.props.note.id, 'updateTxt', event)} ref={this.itemContentRef}
                             suppressContentEditableWarning={true}
                             contentEditable
-                            className="todo-item-content">{todo.txt}</span>
+                            className={`todo-item-content ${todo.doneAt ? 'todo-done' :''}`}>{todo.txt}</span>
                         <i onClick={() => onTodoUpdateDelete(idx, this.props.note.id, 'delete')}
                             className="todo-delete-btn fa-regular fa-trash-can"></i>
                     </div>
                 })}
-                <p onClick={() => onAddTodoItem(this.props.note.id)} className="new-todo-item-btn"><i className="fa-solid fa-circle-plus"></i> Add new Todo</p>
+                <p onClick={() => onAddTodoItem(this.props.note.id)} className="todo-item-content new-todo-item-btn"><i className="fa-solid fa-circle-plus"></i> Add new Todo</p>
             </ul>
         </section>
     }

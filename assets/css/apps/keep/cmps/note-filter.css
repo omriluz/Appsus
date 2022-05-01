@@ -1,6 +1,8 @@
 .note-filter-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .note-filter {
@@ -8,7 +10,7 @@
     /* box-shadow: 3px 3px 5px 6px #ccc; */
     width: 68%;
     border-radius: 6px;
-    font-size: 1.2rem;
+    font-size: 15px;
     margin-left: 20px;
 }
 
@@ -45,6 +47,9 @@
 }
 
 @media screen and (min-width: 540px) {
+    .note-filter {
+        font-size: 19px;
+    }
     .filter-form {
         width: 67%;
     }

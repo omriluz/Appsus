@@ -19,9 +19,10 @@ export class KeepApp extends React.Component {
     componentDidMount() {
         // initial load 
         this.loadNotes()
-        
+
         this.removeEvent = eventBusService.on('search', (filterBy) => {
             this.setState((prevState) => ({ filterBy }), () => {
+                if (filterBy.txt) filterBy.txt = filterBy.txt.toLowerCase()
                 this.loadNotes()
             })
         })
@@ -48,23 +49,48 @@ export class KeepApp extends React.Component {
 
     deleteNote = (noteId) => {
         noteService.deleteNote(noteId)
-        this.loadNotes()
+            .then(this.loadNotes)
+            .then(() => {
+                eventBusService.emit('user-msg', {
+                    type: 'success', txt: 'Note deleted'
+                })
+            })
     }
 
     copyNote = (noteId) => {
         noteService.copyNote(noteId)
-        this.loadNotes()
+            .then(this.loadNotes)
+            .then(eventBusService.emit('user-msg', {
+                type: 'success', txt: 'Note copied'
+            }))
     }
 
     onTodoUpdateDelete = (todoIdx, noteId, action, event) => {
         let txt = event ? event.target.innerText : undefined
         noteService.todoUpdateDelete(todoIdx, noteId, action, txt)
             .then(this.loadNotes)
+            .then(() => {
+                switch (action) {
+                    case 'updateTxt':
+                        eventBusService.emit('user-msg', {
+                            type: 'success', txt: 'Todo Updated'
+                        })
+                        break
+                    case 'delete':
+                        eventBusService.emit('user-msg', {
+                            type: 'success', txt: 'Todo deleted'
+                        })
+                        break
+                }
+            })
     }
 
     onAddTodoItem = (noteId) => {
         noteService.addTodoItem(noteId)
-        this.loadNotes()
+            .then(this.loadNotes)
+            .then(eventBusService.emit('user-msg', {
+                type: 'success', txt: 'Todo Added'
+            }))
     }
 
     createNote = (noteInput, noteType) => {
@@ -90,20 +116,34 @@ export class KeepApp extends React.Component {
     }
 
 
-    changeColor = (noteId, color) => {
-        noteService.changeColor(noteId, color)
+    onSaveNote = (note) => {
+        noteService.saveNote(note)
             .then(this.loadNotes)
+            .then(eventBusService.emit('user-msg', {
+                type: 'success', txt: 'Saved'
+            }))
     }
 
 
+    changeColor = (noteId, color) => {
+        noteService.changeColor(noteId, color)
+            .then(this.loadNotes)
+            .then(eventBusService.emit('user-msg', {
+                type: 'success', txt: 'Switched note color'
+            }))
+    }
+
+
+    
+
+
     render() {
-        console.log(this.state);
         const { notes } = this.state
         return <section className="keep-app">
             <NoteFilter createNote={this.createNote} />
             <NoteList notes={notes} editNote={this.editNote}
                 deleteNote={this.deleteNote} copyNote={this.copyNote} onTodoUpdateDelete={this.onTodoUpdateDelete}
-                onAddTodoItem={this.onAddTodoItem} changeColor={this.changeColor} />
+                onAddTodoItem={this.onAddTodoItem} changeColor={this.changeColor} onSaveNote={this.onSaveNote} />
         </section>
 
     }
