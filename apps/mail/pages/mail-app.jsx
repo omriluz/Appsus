@@ -12,7 +12,8 @@ export class MailApp extends React.Component {
         isCompose: false,
         filterBy: null,
         sortBy: null,
-        mail: null
+        mail: null,
+        draftId: null
 
     }
 
@@ -90,9 +91,8 @@ export class MailApp extends React.Component {
         console.log(mailId);
         mailService.getById(mailId)
             .then((mail) => {
-                this.setState({ mail: { to: mail.to, subject: mail.subject, msg: mail.body } })
+                this.setState({ mail: { to: mail.to, subject: mail.subject, msg: mail.body }, draftId: mailId })
                 this.onIsCompose()
-                console.log(this.state.mail);
             })
     }
 
@@ -115,7 +115,8 @@ export class MailApp extends React.Component {
             <MailFilter onSetFilter={this.onSetFilter} isCompose={isCompose} onCloseCompose={this.onCloseCompose} />
             {isCompose && <MailCompose isCompose={isCompose}
                 onCloseCompose={this.onCloseCompose}
-                mail={this.state.mail} />}
+                mail={this.state.mail}
+                draftId={this.state.draftId} />}
             <MailList onOpenDraft={this.onOpenDraft} mails={this.mailsToDisplay} onIsRead={this.onIsRead} onIsStared={this.onIsStared} onRemoveMail={this.onRemoveMail} />
         </section>
     }

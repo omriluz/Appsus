@@ -83,10 +83,19 @@ function composeMail(mail) {
 }
 
 
-function composeDraftMail(mail) {
+function composeDraftMail(mail, mailId) {
     let mails = _loadFromStorage()
-    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'draft')
-    mails.unshift(sentMail)
+    const draftMailIndex = mails.findIndex(mail => mailId === mail.id)
+    if (draftMailIndex >= 0) {
+        mails[draftMailIndex].to = mail.to
+        mails[draftMailIndex].subject = mail.subject
+        mails[draftMailIndex].body = mail.msg
+    }
+    else {
+        const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'draft')
+        mails.unshift(sentMail)
+    }
+
     _saveToStorage(mails)
     return Promise.resolve(mails)
 }

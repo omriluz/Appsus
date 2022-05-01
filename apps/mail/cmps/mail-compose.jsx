@@ -9,18 +9,26 @@ export class MailCompose extends React.Component {
             to: '',
             subject: '',
             msg: '',
-        }
+        },
+        mailId: null
 
     }
+
+    intervalId;
 
     componentDidMount() {
         this.loadMail()
         console.log(this.props);
+        // if (this.intervalId) clearInterval(this.intervalId)
+        // this.intervalId = setInterval(() => mailService.composeDraftMail(this.state.mail), 5000)
+    }
 
+    componentWillUnmount() {
+        clearInterval(this.intervalId)
     }
 
     loadMail = () => {
-        if (this.props.mail !== null) this.setState({ mail: this.props.mail })
+        if (this.props.mail !== null) this.setState({ mail: this.props.mail, mailId: this.props.draftId })
     }
 
 
@@ -48,7 +56,7 @@ export class MailCompose extends React.Component {
 
 
     onComposeDraftMail = () => {
-        mailService.composeDraftMail(this.state.mail)
+        mailService.composeDraftMail(this.state.mail, this.state.mailId)
             .then(() => {
                 this.props.onCloseCompose()
                 eventBusService.emit('user-msg', {
