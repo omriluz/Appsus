@@ -74,10 +74,19 @@ function setMailSort(sortBy = {}) {
     return Promise.resolve(mails)
 }
 
-function composeMail(mail) {
+function composeMail(mail, mailId) {
     let mails = _loadFromStorage()
-    const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'sent')
-    mails.unshift(sentMail)
+    const mailIndex = mails.findIndex(mail => mailId === mail.id)
+    if (mailIndex >= 0) {
+        mails[mailIndex].to = mail.to
+        mails[mailIndex].subject = mail.subject
+        mails[mailIndex].body = mail.msg
+        mails[mailIndex].status = 'sent'
+    }
+    else {
+        const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'sent')
+        mails.unshift(sentMail)
+    }
     _saveToStorage(mails)
     return Promise.resolve(mails)
 }
@@ -92,6 +101,7 @@ function composeDraftMail(mail, mailId) {
         mails[draftMailIndex].body = mail.msg
     }
     else {
+        if (!mail.subject) return
         const sentMail = _createMail('Me', mail.subject, mail.msg, mail.to, 'draft')
         mails.unshift(sentMail)
     }

@@ -13,7 +13,8 @@ export class MailApp extends React.Component {
         filterBy: null,
         sortBy: null,
         mail: null,
-        draftId: null
+        draftId: null,
+        isToggle: false
 
     }
 
@@ -82,9 +83,18 @@ export class MailApp extends React.Component {
     }
 
 
-    onCloseCompose = () => {
-        this.setState({ isCompose: false })
+    closeCompose = () => {
+        this.setState({ isCompose: false, mail: null })
 
+
+    }
+
+    toggleMenu = () => {
+        this.setState({ isToggle: !this.state.isToggle })
+    }
+
+    closeMenu = () => {
+        this.setState({ isToggle: false })
     }
 
     onOpenDraft = (mailId) => {
@@ -104,20 +114,21 @@ export class MailApp extends React.Component {
         if (!status && !isStared) return mails
         else if (isStared) return mails.filter(mail => mail.isStared)
         return mails.filter(mail => mail.status === status)
+
     }
 
 
     render() {
-        const { isCompose } = this.state
+        const { isCompose, isToggle } = this.state
         return <section className="mail-app">
-            <MailFolderList onIsCompose={this.onIsCompose} />
+            <MailFolderList onIsCompose={this.onIsCompose} isToggle={isToggle} closeMenu={this.closeMenu} toggleMenu={this.toggleMenu} />
             {/* <MailSort onSetSort={this.onSetSort} /> */}
-            <MailFilter onSetFilter={this.onSetFilter} isCompose={isCompose} onCloseCompose={this.onCloseCompose} />
+            <MailFilter onSetFilter={this.onSetFilter} isCompose={isCompose} closeCompose={this.closeCompose} />
             {isCompose && <MailCompose isCompose={isCompose}
-                onCloseCompose={this.onCloseCompose}
+                closeCompose={this.closeCompose}
                 mail={this.state.mail}
                 draftId={this.state.draftId} />}
-            <MailList onOpenDraft={this.onOpenDraft} mails={this.mailsToDisplay} onIsRead={this.onIsRead} onIsStared={this.onIsStared} onRemoveMail={this.onRemoveMail} />
+            <MailList closeMenu={this.closeMenu} isToggle={isToggle} onOpenDraft={this.onOpenDraft} mails={this.mailsToDisplay} onIsRead={this.onIsRead} onIsStared={this.onIsStared} onRemoveMail={this.onRemoveMail} />
         </section>
     }
 

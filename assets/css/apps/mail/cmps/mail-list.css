@@ -1,11 +1,20 @@
 .mail-list {
     width: 50rem;
-    height: 20rem;
+
+    height: 100%;
+
     margin: auto;
 }
 
+.mail-list.blur {
+    background-color: gainsboro;
+    filter: blur(10px);
+    width: 100%;
 
-@media screen and (max-width:1090px) {
+}
+
+
+@media screen and (max-width:1182px) {
     .mail-list {
         width: 40rem;
         margin-left: 260px;

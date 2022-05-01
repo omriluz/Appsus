@@ -11,8 +11,9 @@
 
 .mail-compose .compose-header {
     background-color: #404040;
-    width: 100%;
+    width: 98.5%;
     padding-bottom: 0.6rem;
+    border-radius: 10px 10px 0 0;
 
 }
 
@@ -20,9 +21,15 @@
     background-color: #404040;
     border: none;
     font-size: 20px;
+    color: #b2b2b2;
     margin-top: 0.5rem;
     margin-left: 5px;
     cursor: pointer;
+}
+
+.mail-compose .compose-header button:hover {
+    background-color: #b2b2b2;
+    color: #fff;
 }
 
 .mail-compose .to {
@@ -41,8 +48,12 @@
 
 .mail-compose .send-mgs {
     position: absolute;
-    left: 3px;
-    bottom: 5.5px;
+    left: 6px;
+    bottom: 7.5px;
+}
+
+.mail-compose .send-mgs:hover {
+    box-shadow: 2px 2px 20px lightgrey
 }
 
 .mail-compose .send-mgs button {
@@ -69,18 +80,24 @@
         width: 285px;
     }
 
+
+
     .mail-compose .compose-header {
-        width: 410%;
+        width: 413%;
     }
 
     .mail-compose .send-mgs button {
 
-        padding: 0;
+        padding: 3px;
+    }
+
+    .mail-compose .send-mgs {
+        left: -106px;
     }
 
     .mail-compose {
         width: 69px;
         height: 278px;
-        right: 13rem;
+        right: 7rem;
     }
 }

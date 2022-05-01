@@ -1,8 +1,10 @@
 .mail-filter {
     text-align: center;
-    margin-bottom: 30px;
-    margin-top: 0;
+    margin-bottom: 37px;
+    margin-top: 36px;
+    margin-left: -237px;
 }
+
 
 
 
@@ -13,10 +15,19 @@
     border: none;
 }
 
+
 .mail-filter input {
     width: 450px;
     margin-right: 2px;
 }
+
+
+
+.mail-filter select {
+    cursor: pointer;
+}
+
+
 
 @media screen and (max-width:828px) {
     .mail-filter input {
@@ -59,8 +70,4 @@
 
     }
 
-}
-
-.mail-filter select {
-    cursor: pointer;
 }

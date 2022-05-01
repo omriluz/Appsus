@@ -14,21 +14,25 @@ export class MailCompose extends React.Component {
 
     }
 
-    intervalId;
+    timeoutId;
 
     componentDidMount() {
         this.loadMail()
         console.log(this.props);
-        // if (this.intervalId) clearInterval(this.intervalId)
-        // this.intervalId = setInterval(() => mailService.composeDraftMail(this.state.mail), 5000)
+        if (this.timeoutId) clearInterval(this.timeoutId)
+        this.timeoutId = setTimeout(() => this.onComposeDraftMail(), 7000)
     }
 
     componentWillUnmount() {
-        clearInterval(this.intervalId)
+        clearInterval(this.timeoutId)
     }
 
     loadMail = () => {
-        if (this.props.mail !== null) this.setState({ mail: this.props.mail, mailId: this.props.draftId })
+
+        console.log(this.props.mail);
+        if (this.props.mail) this.setState({ mail: this.props.mail, mailId: this.props.draftId })
+
+
     }
 
 
@@ -40,9 +44,9 @@ export class MailCompose extends React.Component {
 
     onComposeMail = (ev) => {
         ev.preventDefault()
-        mailService.composeMail(this.state.mail)
+        mailService.composeMail(this.state.mail, this.state.mailId)
             .then(() => {
-                this.props.onCloseCompose()
+                this.props.closeCompose()
                 eventBusService.emit('user-msg', {
                     type: 'success', txt: 'The message has been sent'
                 })
@@ -58,11 +62,26 @@ export class MailCompose extends React.Component {
     onComposeDraftMail = () => {
         mailService.composeDraftMail(this.state.mail, this.state.mailId)
             .then(() => {
-                this.props.onCloseCompose()
                 eventBusService.emit('user-msg', {
                     type: 'success', txt: 'The message moved to draft'
                 })
             })
+
+    }
+
+    onCloseCompose = () => {
+        this.props.closeCompose()
+        this.cleanForm()
+    }
+
+    cleanForm = () => {
+        this.setState({
+            mail: {
+                to: '',
+                subject: '',
+                msg: ''
+            }
+        })
     }
 
     render() {
@@ -70,7 +89,7 @@ export class MailCompose extends React.Component {
 
         return (this.props.isCompose &&
             (<section className="mail-compose flex column align-center" >
-                <header className="compose-header"><button onClick={this.onComposeDraftMail} >x</button></header>
+                <header className="compose-header"><button onClick={() => this.onCloseCompose()} >x</button></header>
                 <form className="flex column align-center" onSubmit={this.onComposeMail}>
                     <input placeholder="To:" className="to" type="text" name="to"
                         value={to} onChange={this.handleChange} />

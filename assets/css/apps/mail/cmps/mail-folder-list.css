@@ -3,52 +3,29 @@
     top: 183px;
     left: 60px;
     gap: 30px;
+
 }
 
 .btn-toggle-menu {
     display: none;
 }
 
-@media screen and (max-width:608px) {
-    .mail-folder-list {
-        left: 6px;
 
-    }
+.mail-folder-list a {
+    padding: 10px;
+    border-radius: 10px;
+    border-radius: 0 20px 20px 0;
+    padding-right: 40px;
 }
 
-@media screen and (max-width:500px) {
-    .btn-toggle-menu {
-        display: unset;
-        position: absolute;
-        left: 3%;
-        top: 14.3%;
-        width: 45px;
-        background-color: #f1f3f4;
-        border: none;
-        height: 1.8rem;
-        cursor: pointer;
-    }
+.mail-folder-list a:hover {
+    background-color: #f5f7f7;
+}
 
-    .mail-folder-list {
-        position: absolute;
-        bottom: 10px;
-        transform: translateY(-19%);
-        width: 101%;
-        left: 1px;
-        flex-direction: column;
-        max-height: 0;
-        overflow: hidden;
-        justify-content: flex-end;
-        transition: max-height .6s;
-        background-color: #f1f3f4;
-        z-index: 20;
-    }
+.active-folder {
+    background-color: #fce8e6;
+    color: #da372d;
 
-    .mail-folder-list.menu-open {
-        max-height: 39vh;
-        z-index: 20;
-        background-color: #f1f3f4;
-    }
 }
 
 .mail-folder-list .add-mail button {
@@ -74,9 +51,7 @@
 
 }
 
-
 .mail-folders {
-    gap: 15px;
     color: rgb(57, 56, 56);
     cursor: pointer;
 }
@@ -85,4 +60,55 @@
     font-size: .75rem;
     margin-left: 1rem;
     font-weight: 700;
+}
+
+@media screen and (max-width:947px) {
+    .mail-folder-list {
+        left: 6px;
+
+    }
+}
+
+@media screen and (max-width:500px) {
+    .btn-toggle-menu {
+        display: unset;
+        position: absolute;
+        left: 3%;
+        top: 14.1%;
+        width: 45px;
+        background-color: #f1f3f4;
+        border: none;
+        height: 1.8rem;
+        cursor: pointer;
+    }
+
+    .mail-folder-list {
+        position: absolute;
+        top: 250px;
+        transform: translateY(-19%);
+        width: 0px;
+        left: 1px;
+        flex-direction: column;
+        height: 81vh;
+        overflow: hidden;
+        justify-content: space-between;
+        transition: width .6s;
+        background-color: #fff;
+        z-index: 20;
+    }
+
+    .mail-folder-list.menu-open {
+        width: 39vh;
+        z-index: 20;
+        background-color: #fff;
+        height: 81vh;
+        top: 244px;
+    }
+
+    .mail-folders {
+
+        justify-content: space-around;
+        flex-grow: 1;
+
+    }
 }
