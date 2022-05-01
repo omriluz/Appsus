@@ -23,31 +23,6 @@ function query(filterBy) {
         notes = _createNotes()
         _saveToStorage(notes)
     }
-    if (filterBy) {
-        // console.log('this is filterby', filterBy);
-        const { txt, noteType } = filterBy
-        // console.log('this is the notetype before the condition', noteType);
-        // if (noteType !== 'all') {
-        //     notes = notes.filter(note =>
-        //         note.type === noteType
-        //     )
-        //     if (txt !== '') {
-        //         notes = notes.filter(note =>
-        //             note.info.txt === txt)
-        // notes = notes.filter(note => {
-        // console.log('this is the note', note);
-        // if (noteType === 'all' || noteType === '') return note.info.txt.toLowerCase().includes(txt.toLowerCase())
-        // return note.info.txt.toLowerCase().includes(txt.toLowerCase()) && note.type === noteType
-        // })
-    }
-    // if (!txt) txt = null;
-    // if (!noteType) noteType = ''
-    // notes = notes.filter(note =>
-    //         note.type === noteType
-    //     )
-    // && note.info.speed <= maxSpeed &&
-    // car.speed >= minSpeed)
-
     console.log('this notes', notes);
     return Promise.resolve(notes)
 }
@@ -60,31 +35,29 @@ function query(filterBy) {
 function _createNotes() {
 
     const notes = []
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
+    notes.push(_createNote('note-img', {
+        url: "https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80 327w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80 627w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80 654w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80 927w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1227&q=80 1227w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1254&q=80 1254w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1527&q=80 1527w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1827&q=80 1827w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1854&q=80 1854w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2127&q=80 2127w, https://images.unsplash.com/photo-1651185474185-20dcc940f14b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2384&q=80 2384w",
+        title: "Bobi and Me"
+    }))
     notes.push(_createNote('note-video', { url: 'https://www.youtube.com/embed/tgbNymZ7vqY' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-txt', { txt: 'Fullstack Me Baby!' }))
-    notes.push(_createNote('note-img', {
-        url: "https://picsum.photos/200",
-        title: "Bobi and Me"
-    }))
-    notes.push(_createNote('note-img', {
-        url: "https://www.qries.com/images/banner_logo.png",
-        title: "Bobi and Me"
-    }))
     notes.push(_createNote('note-todos', {
         title: 'my todo list',
         label: "Get my stuff together",
         todos: [
-            { txt: "Finish Appsus", doneAt: null },
-            { txt: "Go Shower", doneAt: 187111111 }
+            { txt: "buy groceries", doneAt: null },
+            { txt: "go Shower", doneAt: 187111111 },
+            { txt: "hack the pentagon", doneAt: 187111111 }
         ]
+    }))
+    notes.push(_createNote('note-txt', { txt: 'A poem written by me: Evening In A Sugar OrchardFrom where I lingered in a lull in March outside the sugar-house one night for choice, I called the fireman with a careful voice And bade him leave the pan and stoke the arch: O fireman, give the fire another stoke, And send more sparks up chimney with the smoke. I thought a few might tangle, as they did, Among bare maple boughs, and in the rare Hill atmosphere not cease to glow, And so be added to the moon up there.' }))
+    notes.push(_createNote('note-txt', { txt: 'Remember to remember something' }))
+    notes.push(_createNote('note-img', {
+        url: "https://www.qries.com/images/banner_logo.png",
+        title: "Bobi and Me"
+    }))
+    notes.push(_createNote('note-img', {
+        url: "https://images.unsplash.com/photo-1651250899702-bd2de3569ca9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        title: "Bobi and Me"
     }))
     return notes
 }
@@ -178,7 +151,7 @@ function _createNote(type, info) {
         isPinned: false,
         info,
         style: {
-            backgroundColor: '#f5f5dc'
+            backgroundColor: '#fff'
         }
     }
 }

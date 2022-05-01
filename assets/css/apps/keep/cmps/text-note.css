@@ -6,6 +6,8 @@
 
 @media screen and (min-width: 470px) {
     .text-note-content {
-        font-size: 24px;
+        font-size: 18px;
+        /* font-size: 1.125rem; */
+        text-align: left;
     }
 }
