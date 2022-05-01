@@ -16,7 +16,7 @@
     border: 10px solid rgb(232, 222, 222);
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
     height: 65px;
     margin-top: 30px;
     margin-bottom: 50px;
@@ -44,7 +44,13 @@
     opacity: 1;
 }
 
-@media screen and (min-width: 470px) {
+@media screen and (min-width: 540px) {
+    .filter-form {
+        width: 67%;
+    }
+}
+
+@media screen and (min-width: 820px) {
     .filter-form {
         width: 50%;
     }

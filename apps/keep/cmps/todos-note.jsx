@@ -14,9 +14,6 @@ export class TodosNote extends React.Component {
 
     itemContentRef = React.createRef()
 
-    componentDidMount() {
-    }
-
     render() {
         const { onTodoUpdateDelete, onAddTodoItem } = this.props
         const { title, todos } = this.props.note.info

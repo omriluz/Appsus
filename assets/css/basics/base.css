@@ -30,6 +30,6 @@ img {
     object-fit: cover;
 }
 
-.app {
-    padding: 20px;
+[contenteditable] {
+    outline: 0px solid transparent;
 }
