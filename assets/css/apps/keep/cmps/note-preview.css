@@ -95,3 +95,9 @@
         transition: opacity 0.17s ease-in-out;
     }
 }
+
+@media screen and (min-width: 800px) {
+    .note-preview {
+        min-height: 210px;
+    }
+}

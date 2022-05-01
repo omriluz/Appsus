@@ -17,20 +17,27 @@ const KEY = 'notesDB'
 
 
 function query(filterBy) {
-
     let notes = _loadFromStorage()
     if (!notes) {
         notes = _createNotes()
         _saveToStorage(notes)
     }
-    console.log('this notes', notes);
+
+    if (filterBy) {
+        notes = notes.filter(note => {
+            if (!filterBy.txt) return note
+            switch (note.type) {
+                case 'note-txt':
+                    return note.info.txt.toLowerCase().includes(filterBy.txt)
+                case 'note-todos':
+                    const todosRes = note.info.todos.filter(todo => todo.txt.toLowerCase().includes(filterBy.txt))
+                    const titleRes = note.info.title.toLowerCase().includes(filterBy.txt)
+                    return titleRes || todosRes.length
+            }
+        })
+    }
     return Promise.resolve(notes)
 }
-
-
-
-
-
 
 function _createNotes() {
 

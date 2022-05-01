@@ -1,3 +1,5 @@
+import { UserMsg } from "../../../cmps/user-msg.jsx"
+import { NoteSearch } from "./note-search.jsx"
 export class NoteFilter extends React.Component {
 
     state = {
@@ -31,6 +33,7 @@ export class NoteFilter extends React.Component {
     render() {
         const { noteInput, placeHolder, noteType } = this.state
         return <section className="note-filter-container">
+            <NoteSearch/>
             <form className="filter-form" onSubmit={(event) => this.onCreateNote(event)}>
                 <input autoComplete="off" placeholder={placeHolder} value={noteInput} name='noteInput'
                     onChange={(event) => this.handleChange(event)} className="note-filter" type="text" />
