@@ -4,6 +4,16 @@
     position: relative;
 }
 
+@media screen and (max-width:765px) {
+    .mail-details {
+        width: 500px;
+        margin-left: 0;
+
+    }
+}
+
+
+
 .mail-details .mail-btn {
     position: absolute;
     right: 0rem;
@@ -38,4 +48,25 @@
 .mail-details .mail-content p {
     font-size: 13px;
 
+}
+
+
+@media screen and (max-width:550px) {
+    .mail-details {
+        width: 354px;
+    }
+
+    .mail-details .mail-content {
+        left: 8rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .mail-details .mail-content {
+        left: 1rem;
+    }
+
+    .mail-details .mail-btn {
+        right: 7rem;
+    }
 }
